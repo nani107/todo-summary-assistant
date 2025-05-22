@@ -1,7 +1,11 @@
-// backend/services/slackService.js
-const axios = require('axios');
+const axios = require("axios");
 
-async function sendToSlack(message) {
-  await axios.post(process.env.SLACK_WEBHOOK_URL, { text: message });
-}
-module.exports = { sendToSlack };
+exports.sendToSlack = async (message) => {
+  const slackWebhookUrl = process.env.SLACK_WEBHOOK_URL;
+
+  if (!slackWebhookUrl) {
+    throw new Error("SLACK_WEBHOOK_URL is not set");
+  }
+
+  await axios.post(slackWebhookUrl, { text: message });
+};

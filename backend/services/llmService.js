@@ -1,15 +1,18 @@
-// backend/services/llmService.js
-const { OpenAI } = require('openai');
+const { CohereClient } = require("cohere-ai");
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const cohere = new CohereClient({
+  token: process.env.COHERE_API_KEY,
+});
 
-async function summarizeTodos(todos) {
-  const prompt = `Summarize these tasks: ${todos.map(t => `- ${t.task}`).join('\n')}`;
-  const response = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
-    messages: [{ role: 'user', content: prompt }]
+exports.summarizeTodos = async (todos) => {
+  const prompt = `Summarize the following todo items:\n${todos.map(t => `- ${t.task}`).join('\n')}`;
+
+  const response = await cohere.generate({
+    model: "command",
+    prompt,
+    maxTokens: 100,
+    temperature: 0.5,
   });
-  return response.choices[0].message.content;
-}
 
-module.exports = { summarizeTodos };
+  return response.generations[0].text.trim();
+};

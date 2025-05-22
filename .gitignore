@@ -1,0 +1,7 @@
+# Ignore dependencies and sensitive files
+node_modules/
+build/
+.env
+.vscode/
+*.log
+.DS_Store

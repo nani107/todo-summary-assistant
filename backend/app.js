@@ -1,4 +1,8 @@
-// backend/app.js
+require('dotenv').config();
+
+
+
+// === backend/app.js ===
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -7,7 +11,6 @@ const summaryRoute = require('./routes/summaryRoute');
 
 dotenv.config();
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
